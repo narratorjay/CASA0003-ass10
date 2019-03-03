@@ -1,0 +1,88 @@
+<!-- here we go again -->
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <div id="allCanvases" style="position:relative; width:480px; height:480px">
+        <canvas id="canvas1" title="annoyingBounce" 
+                style="z-index: 1; position:absolute; left:0px; top:0px; width:480px; height:480px;">
+        </canvas>
+        <canvas id="canvas2" title="fadingSquare" 
+                style="z-index: 2; position:absolute; left:0px; top:0px; width:480px; height:480px;">
+        </canvas>
+    </div>    
+    
+    <script  type="text/javascript">
+        var globeWidth = 480;
+        var globeHeight = 480;
+        var piRatio = Math.PI / 180;
+        var horizon = 80 * piRatio;
+        var lat = 10;  
+        var lon = -150;
+        var histLat = 5;
+        var histLon = -90;
+        var index = 0;
+        var carray = [];
+        var coordSet = [index, lat, lon];
+        // console.log("piRatio is", piRatio, "and the horizon is set at", horizon, "radians.")    
+    </script> 
+
+</head>
+
+<body>
+    <script type="text/javascript">
+        function sphere(canvasid, nowLat, nowLon, toAlpha, oldLat, oldLon) {
+            var radLat;
+            var radLon;
+            var xtravel;
+            var ytravel;
+            var xcanvas;
+            var ycanvas;
+            
+            var ISScanvas = document.getElementById(canvasid);
+            var ISScontext = ISScanvas.getContext("2d");
+            
+            radLat = piRatio * (nowLat - oldLat);
+            radLon = piRatio * (nowLon - oldLon);
+            ytravel = Math.sin(radLat);
+            xtravel = Math.sin(radLon);
+            ycanvas = (globeHeight/2) * (1 - ytravel);
+            xcanvas = (globeWidth/2) * (1 + xtravel);
+            console.log("Canvas ID is", canvasid);
+            console.log("Canvas x and y co-ordinates are", xcanvas, ycanvas);
+            
+            ISScontext.clearRect(0,0, globeWidth,  globeHeight);
+            ISScontext.fillStyle = "#FAF7F8";
+            ISScontext.fillStyle = "#44E044";
+            ISScontext.save();
+            ISScontext.translate(xcanvas, ycanvas);
+
+            ISScontext.fillStyle = "#FF0000";
+            // ISScontext.arc(xcanvas, ycanvas, 77, 0, 2, true);
+            ISScontext.fillRect((xcanvas-15), (ycanvas-15), (xcanvas+30), (ycanvas + 30));  
+            // ISScontext.restore();           
+            
+        }
+        
+        
+        while (lon < 150) {
+            coordSet = [index, lat, lon];
+            carray.unshift([coordSet]);
+            sphere("canvas1", lat, lon, "#FF", histLat, histLon);
+            index++;
+            lon = lon + 5;
+            lat = lat +2;
+            if (lat > 39){
+                lat = -40;
+            }
+        
+        
+        }
+    
+    
+    </script>   
+
+</body>
+
+
+</html>

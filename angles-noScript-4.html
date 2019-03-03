@@ -1,0 +1,79 @@
+<!-- here we go again -->
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Own Layers</title>
+</head>
+    
+<body>
+    <section>
+        <div id="allCanvases" style="position:relative; width:480px; height:480px">
+            <canvas id="canvas1" title="annoyingBounce" 
+                    style="z-index: 1; position:absolute; left:0px; top:0px;" height="480px" width="480px">
+            </canvas>
+            <canvas id="canvas2" title="fadingSquare" 
+                    style="z-index: 2; position:absolute; left:0px; top:0px;" height="480px" width="480px">
+            </canvas>
+        </div>    
+
+        <script type="text/javascript">
+            var globeWidth = 480;
+            var globeHeight = 480;
+            var piRatio = Math.PI / 180;
+            var horizon = 80 * piRatio;
+            var lat = 10;  
+            var lon = -150;
+            var histLat = 5;
+            var histLon = -90;
+            var index = 0;
+            var carray = [];
+            var coordSet = [index, lat, lon];
+            var alphaFade = 20;
+            var baseColour = "#F4F7F8";
+            
+            
+            // console.log("piRatio is", piRatio, "and the horizon is set at", horizon, "radians.")    
+
+            function drawback1() {
+                console.log("background canvas");
+                layer1 = document.getElementById("canvas1");
+                context1 = layer1.getContext("2d");
+                context1.fillStyle = "#2A07F891";
+                context1.fillRect(0, 0, globeWidth, globeHeight);
+                context1.closePath();
+            }
+            
+            function ISSrect(xpos, howOpaque){
+                var layer2 = document.getElementById("canvas2");
+                var context2 = layer2.getContext("2d");
+                
+                // first save starting positions and end by restoring them
+                // translate the origin, rotate the canvas
+                // draw filled rectangle with colour and alpha "howOpaque"
+                context2.save();
+                context2.translate(xpos * 1.5, xpos);
+                context2.fillStyle = howOpaque;
+                context2.rotate(0.006 * xpos);
+                context2.fillRect(-3, -15, 6, 30);
+                context2.restore();
+            }
+
+        drawback1();
+            
+        while (alphaFade < 256 ){
+            var hexFade = alphaFade.toString(16);
+            var sendColour = baseColour.concat(hexFade);
+            console.log("alphaFade", alphaFade, "sendColour", sendColour);
+            
+            ISSrect(alphaFade, sendColour)
+            alphaFade = alphaFade + 16;
+        }
+        </script>    
+
+    </section>
+
+</body>
+
+
+</html>
