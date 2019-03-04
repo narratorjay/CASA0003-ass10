@@ -1,0 +1,21 @@
+
+
+The ISS will always be at the centre of the globe.
+
+Longitude is negative going west, positive going east.
+Subtract the camp longitude from ISS longitude.
+
+difflon = ISSlon - camplon
+difflat = ISSlat - camplat
+
+If difflon < 80 degrees then display camp (west)
+If difflon > -80 degrees then display camp (east)
+
+If difflon < -280 then display camp (west over dateline)
+If difflon > 280 then display camp (east over dateline)
+
+Display position on globe 
+difflonX = sin(difflon) * some factor depending on the size of the globe
+difflatY = sin(difflat) * some factor depending on the size of the globe
+
+
